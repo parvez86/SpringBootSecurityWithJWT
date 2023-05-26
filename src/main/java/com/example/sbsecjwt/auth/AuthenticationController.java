@@ -29,14 +29,14 @@ public class AuthenticationController {
         System.out.println(request);
 //        ObjectMapper mapper = new ObjectMapper();
         ApiResponse response = service.register(request);
-        return  response.getStatus_code()==200 ? ResponseEntity.ok(response.getBody()):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.getMessage());
+        return  response.getStatus_code()==200 ? ResponseEntity.ok(response.getBody()):ResponseEntity.status(HttpStatus.FORBIDDEN).body(response.getMessage());
     }
     @PostMapping("/authenticate")
     public ResponseEntity<Object> authenticate(
             @Valid @RequestBody AuthenticationRequest request
     ) {
         ApiResponse  response = service.authenticate(request);
-        return response.getStatus_code()==200 ? ResponseEntity.ok(response.getBody()):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.getMessage());
+        return response.getStatus_code()==200 ? ResponseEntity.ok(response.getBody()):ResponseEntity.status(HttpStatus.FORBIDDEN).body(response.getMessage());
     }
 
     @PostMapping("/refresh-token")
@@ -45,6 +45,6 @@ public class AuthenticationController {
             HttpServletResponse response
     ) throws IOException {
         ApiResponse apiResponse = service.refreshToken(request, response);
-        return apiResponse.getStatus_code()==200 ? ResponseEntity.ok(apiResponse.getMessage()):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse.getMessage());
+        return apiResponse.getStatus_code()==200 ? ResponseEntity.ok(apiResponse.getMessage()):ResponseEntity.status(HttpStatus.FORBIDDEN).body(apiResponse.getMessage());
     }
 }
